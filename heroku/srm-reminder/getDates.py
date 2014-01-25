@@ -20,4 +20,3 @@ while (True):
 	elif(int(currentDates[1]) == int(dates[1])):
 		enviarEmail('teste', False)
 	time.sleep(86400)
-print()

@@ -1,1 +1,1 @@
-web: python getDates.py
+worker: python getDates.py

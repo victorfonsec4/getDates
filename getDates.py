@@ -14,9 +14,7 @@ while (True):
 	stringCurrentDates = time.strftime('%b %d')
 	currentDates = stringCurrentDates.split()
 
-	enviarEmail('teste', True)
 	if(int(currentDates[1]) + 1 == int(dates[1])):
-		enviarEmail('teste', True)
+		enviarEmail('', True)
 	elif(int(currentDates[1]) == int(dates[1])):
-		enviarEmail('teste', False)
-	time.sleep(86400)
+		enviarEmail('', False)

@@ -37,3 +37,5 @@ if(currentDates[1] + 1 == dates[1]):
 	enviarEmail('', 'TopCoder SRM Amanha!  ' + usTime.astimezone(brazilTime).strftime(printFormat) )
 elif(currentDates[1] == dates[1]):
 	enviarEmail('', 'TopCoder SRM Hoje!' + usTime.astimezone(brazilTime).strftime(printFormat) )
+else:
+	print('ainda faltam ' + str((dates[1] - currentDates[1])) + ' dias')

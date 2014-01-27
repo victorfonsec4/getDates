@@ -1,7 +1,7 @@
 import re
 import socket
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from pytz import timezone
 import pytz
 from enviar import enviarEmail
@@ -17,34 +17,17 @@ def TopCoder():
 	unformDate.string = unformDate.string.replace(':', ' ')
 	dates = unformDate.string.split()
 
-	stringCurrentDates = time.strftime('%b %d %Y')
-	currentDates = stringCurrentDates.split()
-
 	dates[0] = time.strptime(dates[0], "%b").tm_mon
 	dates[1] = int(dates[1])
 	dates[2] = int(dates[2])
 	dates[3] = int(dates[3])
+	dates.insert(0, date.today().year)
 
-	currentDates[0] = time.strptime(currentDates[0], "%b").tm_mon
-	currentDates[1] = int(currentDates[1])
-	currentDates[2] = int(currentDates[2])
-
-	brazilTimeZone= timezone('Brazil/East')
 	usTimeZone = timezone('US/Eastern')
-	usTime = usTimeZone.localize(datetime(currentDates[2], dates[0], dates[1], dates[2], dates[3]))
 
-	printFormat = '%d/%m/%Y %H:%M'
-	brazilTimeStr = usTime.astimezone(brazilTimeZone).strftime(printFormat)
+	MontarEnviar('TopCoder', usTimeZone, dates)
 
-
-	if(currentDates[1] + 1 == dates[1]):
-		enviarEmail('', 'TopCoder SRM Amanha!  ' +  brazilTimeStr)
-	elif(currentDates[1] == dates[1]):
-		enviarEmail('', 'TopCoder SRM Hoje!' + brazilTimeStr)
-	else:
-		print('ainda faltam ' + str((dates[1] - currentDates[1])) + ' dias para o TopCoder')
 def CodeForces():
-	socket.setdefaulttimeout(3)
 	soup = BeautifulSoup(urlopen('http://codeforces.com/contests'))
 	stringDate = soup.find_all(href=re.compile('worldclock'))[0].string
 
@@ -53,33 +36,48 @@ def CodeForces():
 	stringDate = stringDate.replace('AM', '')
 	stringDate = stringDate.replace('PM', '')
 	date = stringDate.split()
-	
-	date[0] = int(date[0]);
-	date[1] = int(date[1]);
-	date[2] = int(date[2]);
-	date[3] = int(date[3]);
-	date[4] = int(date[4]);
-	
-	stringCurrentDates = time.strftime('%b %d %Y')
-	currentDates = stringCurrentDates.split()
-	currentDates[0] = time.strptime(currentDates[0], "%b").tm_mon
-	currentDates[1] = int(currentDates[1])
-	currentDates[2] = int(currentDates[2])
+	date = [int(x) for x in date]
 
-	brazilTimeZone = timezone('Brazil/East')
+	date[0], date[2] = date[2], date[0]
+	date[1], date[2] = date[2], date[1]
+
 	russianTimeZone = timezone('Europe/Moscow')
-	russianTime = russianTimeZone.localize(datetime(date[2], date[0], date[1], date[3], date[4]))
+
+	MontarEnviar('CodeForces', russianTimeZone, date)
+	
+def CodeChef():
+	soup = BeautifulSoup(urlopen('http://www.codechef.com/contests?sort_by=START&sorting_order=asc'))
+	timeList = soup.find_all(text=re.compile('\d{4}\-\d{2}\-\d{2}'))[0]
+	timeList = timeList.replace('-', ' ')
+	timeList = timeList.replace(':', ' ')
+	timeList = timeList.split()
+	timeList = [int(x) for x in timeList]
+
+	indianTimeZone = timezone('Asia/Calcutta')
+
+	MontarEnviar('CodeChef', indianTimeZone, timeList)
+
+def MontarEnviar(competition, zone, dateList):
+	currentDate = date.today().strftime('%Y %m %d')
+	currentDate = currentDate.split()
+	currentDate = [int(x) for x in currentDate]
+	
+	brazilTimeZone = timezone('Brazil/East')
+	time = zone.localize(datetime(dateList[0], dateList[1], dateList[2], dateList[3], dateList[4]))
 
 	printFormat = '%d/%m/%Y %H:%M'
-	brazilTimeStr = russianTime.astimezone(brazilTimeZone).strftime(printFormat)
-	
+	brazilTimeStr = time.astimezone(brazilTimeZone).strftime(printFormat)
 
-	if(currentDates[1] + 1 == date[1]):
-		enviarEmail('', 'CodeForces Match Amanha!  ' +  brazilTimeStr)
-	elif(currentDates[1] == date[1]):
-		enviarEmail('', 'CodeForces Mattch Hoje!' + brazilTimeStr)
+	delta = date(dateList[0], dateList[1],dateList[2]) - date(currentDate[0], currentDate[1],currentDate[2])
+
+	if(delta.days == 0):
+		enviarEmail('', competition + ' Match Hoje! ' + brazilTimeStr)
+	elif(delta.days == 1):
+		enviarEmail('', competition + ' Match Amanha! ' + brazilTimeStr)
 	else:
-		print('ainda faltam ' + str((date[1] - currentDates[1])) + ' dias para o CodeForces')
+		print('Ainda faltam ' + str(delta.days) + ' dias para o ' + competition)
 
+socket.setdefaulttimeout(6)
 TopCoder()
 CodeForces()
+CodeChef()

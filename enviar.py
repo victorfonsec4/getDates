@@ -9,14 +9,15 @@ def enviarEmail(menssagem, titulo):
 	msg = MIMEText(menssagem)
 	
 	
+	recipients = ['victorcel@hotmail.com', 'claudionorsj@gmail.com']
 	msg['Subject'] = titulo
 	msg['From'] = 'Victor'
-	msg['To'] = 'victorcel@hotmail.com'
+	msg['To'] = ", ".join(recipients)
 
 	server = smtplib.SMTP('smtp.gmail.com', 587)
 	server.ehlo()
 	server.starttls()
 	server.ehlo()
 	server.login('victorSmtpServer@gmail.com', password[0])
-	server.sendmail('Victor', ['victorcel@hotmail.com'], msg.as_string())
+	server.sendmail('Victor', recipients, msg.as_string())
 	server.close()

@@ -1,8 +1,12 @@
 import smtplib
+import os
 from email.mime.text import MIMEText
 
 def enviarEmail(menssagem, titulo):
-	open_file = open('password.txt', 'r')
+	localDir = os.path.dirname(__file__)
+	path = os.path.join(localDir, 'password.txt')
+
+	open_file = open(path, 'r')
 	password = open_file.readlines()
 	open_file.close()
 

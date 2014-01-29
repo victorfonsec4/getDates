@@ -30,7 +30,7 @@ def TopCoder():
 def CodeForces():
 	soup = BeautifulSoup(urlopen('http://codeforces.com/contests'))
 	stringDate = soup.find_all(href=re.compile('worldclock'))[0].string
-
+	pm = stringDate.find('PM')
 	stringDate = stringDate.replace('/', ' ')
 	stringDate = stringDate.replace(':', ' ')
 	stringDate = stringDate.replace('AM', '')
@@ -40,7 +40,8 @@ def CodeForces():
 
 	date[0], date[2] = date[2], date[0]
 	date[1], date[2] = date[2], date[1]
-
+	if(pm != -1):
+		date[3] = date[3] + 12
 	russianTimeZone = timezone('Europe/Moscow')
 
 	MontarEnviar('CodeForces', russianTimeZone, date)

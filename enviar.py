@@ -13,7 +13,7 @@ def enviarEmail(menssagem, titulo):
 	msg = MIMEText(menssagem)
 	
 	
-	recipients = ['victorcel@hotmail.com', 'claudionorsj@gmail.com']
+	recipients = ['victorcel@hotmail.com', 'claudionorsj@gmail.com', 'felipe.140492@gmail.com']
 	msg['Subject'] = titulo
 	msg['From'] = 'Victor'
 	msg['To'] = ", ".join(recipients)

@@ -45,7 +45,7 @@ def CodeForces():
 	russianTimeZone = timezone('Europe/Moscow')
 
 	MontarEnviar('CodeForces', russianTimeZone, date)
-	
+
 def CodeChef():
 	soup = BeautifulSoup(urlopen('http://www.codechef.com/contests?sort_by=START&sorting_order=asc'))
 	timeList = soup.find_all(text=re.compile('\d{4}\-\d{2}\-\d{2}'))[0]
@@ -62,7 +62,7 @@ def MontarEnviar(competition, zone, dateList):
 	currentDate = date.today().strftime('%Y %m %d')
 	currentDate = currentDate.split()
 	currentDate = [int(x) for x in currentDate]
-	
+
 	brazilTimeZone = timezone('Brazil/East')
 	time = zone.localize(datetime(dateList[0], dateList[1], dateList[2], dateList[3], dateList[4]))
 
@@ -78,7 +78,7 @@ def MontarEnviar(competition, zone, dateList):
 	else:
 		print('Ainda faltam ' + str(delta.days) + ' dias para o ' + competition)
 
-socket.setdefaulttimeout(6)
+socket.setdefaulttimeout(12)
 TopCoder()
 CodeForces()
 CodeChef()

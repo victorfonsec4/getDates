@@ -79,6 +79,6 @@ def MontarEnviar(competition, zone, dateList):
 		print('Ainda faltam ' + str(delta.days) + ' dias para o ' + competition)
 
 socket.setdefaulttimeout(12)
-TopCoder()
+#TopCoder()
 CodeForces()
 CodeChef()

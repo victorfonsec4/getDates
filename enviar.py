@@ -13,11 +13,13 @@ def enviarEmail(menssagem, titulo):
 	msg = MIMEText(menssagem)
 
 
-	recipients = ['victorcel@hotmail.com', 'claudionorsj@gmail.com', 'felipe.140492@gmail.com', 'ax.muzio@gmail.com', 'caiqueportolira@gmail.com']
+	recipients = ['victorcel@hotmail.com', 'claudionorsj@gmail.com', 'felipe.140492@gmail.com', 'ax.muzio@gmail.com',
+	              'caiqueportolira@gmail.com', 'cesarpereiradf@gmail.com', 'diogonlucena@gmail.com', 'fmachado091@gmail.com',
+	              'miltontakamura@gmail.com', 'itacicero@gmail.com', 'maurobritojunior@gmail.com', ' brunostakes@gmail.com', ' victorstrh@gmail.com',
+	              'natanvianat16@gmail.com', 'vitortterra@gmail.com', 'glauberguarinello@gmail.com']
 	msg['Subject'] = titulo
 	msg['From'] = 'Victor'
 	msg['To'] = ", ".join(recipients)
-
 	server = smtplib.SMTP('smtp.gmail.com', 587)
 	server.ehlo()
 	server.starttls()

@@ -71,12 +71,12 @@ def MontarEnviar(competition, zone, dateList):
 
 	delta = date(dateList[0], dateList[1],dateList[2]) - date(currentDate[0], currentDate[1],currentDate[2])
 
-	if(delta.days == 0):
+	"""if(delta.days == 0):
 		enviarEmail('', competition + ' Match Hoje! ' + brazilTimeStr)
 	elif(delta.days == 1):
 		enviarEmail('', competition + ' Match Amanha! ' + brazilTimeStr)
-	else:
-		print('Ainda faltam ' + str(delta.days) + ' dias para o ' + competition)
+	else:"""
+	print('Ainda faltam ' + str(delta.days) + ' dias para o ' + competition)
 
 socket.setdefaulttimeout(12)
 #TopCoder()

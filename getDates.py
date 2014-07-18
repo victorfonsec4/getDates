@@ -1,5 +1,6 @@
 import re
 import socket
+import calendar
 import time
 from datetime import datetime, timedelta, date
 from pytz import timezone
@@ -7,6 +8,23 @@ import pytz
 from enviar import enviarEmail
 from bs4 import BeautifulSoup
 from urllib2 import urlopen
+
+def monthToNum(date):
+	ans = {
+			'Jan' : 1,
+			'Feb' : 2,
+			'Mar' : 3,
+			'Apr' : 4,
+			'May' : 5,
+			'Jun' : 6,
+			'Jul' : 7,
+			'Aug' : 8,
+			'Sep' : 9, 
+			'Oct' : 10,
+			'Nov' : 11,
+			'Dec' : 12
+	}[date]
+	return ans
 
 def TopCoder():
 	soup = BeautifulSoup(urlopen('http://community.topcoder.com/tc'))
@@ -36,6 +54,7 @@ def CodeForces():
 	stringDate = stringDate.replace('AM', '')
 	stringDate = stringDate.replace('PM', '')
 	date = stringDate.split()
+	date[0] = monthToNum(date[0])
 	date = [int(x) for x in date]
 
 	date[0], date[2] = date[2], date[0]
@@ -71,12 +90,12 @@ def MontarEnviar(competition, zone, dateList):
 
 	delta = date(dateList[0], dateList[1],dateList[2]) - date(currentDate[0], currentDate[1],currentDate[2])
 
-	"""if(delta.days == 0):
+	if(delta.days == 0):
 		enviarEmail('', competition + ' Match Hoje! ' + brazilTimeStr)
 	elif(delta.days == 1):
 		enviarEmail('', competition + ' Match Amanha! ' + brazilTimeStr)
-	else:"""
-	print('Ainda faltam ' + str(delta.days) + ' dias para o ' + competition)
+	else:
+		print('Ainda faltam ' + str(delta.days) + ' dias para o ' + competition)
 
 socket.setdefaulttimeout(12)
 #TopCoder()
